@@ -1,6 +1,8 @@
 package jp.furyu.chat;
 
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -22,6 +24,13 @@ public class ChatService extends Application<ChatConfiguration> {
 				.enableAutoConfig(getClass().getPackage().getName())
 				.build();
     	bootstrap.addBundle(guiceBundle);
+    	
+        bootstrap.addBundle(new MigrationsBundle<ChatConfiguration>() {
+            @Override
+            public DataSourceFactory getDataSourceFactory(ChatConfiguration configuration) {
+				return configuration.getDataSourceFactory();
+			}
+        });
     }
     
     @Override
