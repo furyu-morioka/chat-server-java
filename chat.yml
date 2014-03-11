@@ -1,0 +1,19 @@
+template: Hello, %s!
+defaultName: Stranger
+
+database:
+  # the name of your JDBC driver
+  driverClass: com.mysql.jdbc.Driver
+
+  # the username
+  user: root
+
+  # the password
+  password: 
+
+  # the JDBC URL
+  url: jdbc:mysql://localhost/test
+
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
