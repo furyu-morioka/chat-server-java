@@ -1,21 +1,34 @@
 package jp.furyu.chat.manageds;
 
-import jp.furyu.chat.resources.SocketIOResource;
 import io.dropwizard.lifecycle.Managed;
+import jp.furyu.chat.resources.SocketIOResource;
+import redis.clients.jedis.Jedis;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.store.RedisStoreFactory;
 
 public class SocketIOManaged implements Managed {
-    SocketIOServer server;
+    private SocketIOServer server;
 
+//   redis設定とsocketio設定のinjection    
+//    @Inject
+//
     public SocketIOManaged() {
-	   	Configuration config = new Configuration();
-	    config.setHostname("localhost");
-	    config.setPort(9999);
+	   	Configuration configuration = new Configuration();
+	    configuration.setHostname("localhost");
+	    configuration.setPort(9999);
+	    
+	    /*
+	    Jedis jedis = new Jedis("127.0.0.1", 6379);
+	    Jedis jedisPub = new Jedis("127.0.0.1", 6379);
+	    Jedis jedisSub = new Jedis("127.0.0.1", 6379);
+	    RedisStoreFactory factory = new RedisStoreFactory(jedis, jedisPub, jedisSub);
+	    configuration.setStoreFactory(factory);
+	    */
 
-	    this.server = new SocketIOServer(config);
-	    SocketIOResource sl = new SocketIOResource();
+	    this.server = new SocketIOServer(configuration);
+	    SocketIOResource sl = new SocketIOResource(this.server);
 	    this.server.addListeners(sl);
 	    
 	    /*

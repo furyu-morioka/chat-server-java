@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import jp.furyu.chat.api.Saying;
 import jp.furyu.chat.jdbi.DAOFactory;
@@ -37,10 +38,10 @@ public class HelloWorldResource {
 
     @GET
     @Timed
-    public Saying sayHello(@QueryParam("name") Optional<String> name) {
+    public Response sayHello(@QueryParam("name") Optional<String> name) {
 		System.out.println("say hello with dao : " + dao.findNameById(1));
 
-        return new Saying(counter.incrementAndGet(),
-                          String.format(template, name.or(defaultName)));
+		return Response.ok(new Saying(counter.incrementAndGet(),
+                String.format(template, name.or(defaultName)))).header("Access-Control-Allow-Origin", "*").build();
     }
 }
