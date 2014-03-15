@@ -1,12 +1,20 @@
 package jp.furyu.chat.api;
 
 public class RoomObject {
-	private String room;
+	private String name;
+	private String value;
 	
-	public String getRoom() {
-		return room;
+	public String getName() {
+		return name;
 	}
-	public void setRoom(String room) {
-		this.room = room;
+	public void setName(String name) {
+		this.name = name;
 	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 }
